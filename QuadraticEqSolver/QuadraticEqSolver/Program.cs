@@ -21,13 +21,15 @@ namespace QuadraticEqSolver {
         for (int i = 0; i < koefs.Length; ++i) {
           if (interactiveMode)
             while (ValueTester(i) == false) { }
-          else NInterValueTester(i, fileData);
+          else if (NInterValueTester(i, fileData) == false)
+            return;
           koefs[i] = temp;
         }
+        Solve(koefs[0], koefs[1], koefs[2]);
       }
 
       bool ValueTester(int i) {
-        string response = Console.ReadLine();
+        string response = Console.ReadLine() ?? "";
         if (response == "") {
           Console.WriteLine("Error. Empty answer");
           return false;
@@ -47,8 +49,8 @@ namespace QuadraticEqSolver {
       }
 
       bool NInterValueTester(int i, string[] toTest) {
-        if (toTest[i] == "" || toTest[i] == null) {
-          Console.WriteLine("Error. Empty koef");
+        if (toTest.Length < 3 || toTest[i] == "") {
+          Console.WriteLine("Error. Missing some data");
           return false;
         }
         else if (float.TryParse(toTest[i], out temp)) {
@@ -83,7 +85,6 @@ namespace QuadraticEqSolver {
       }
 
       Setup();
-      Solve(koefs[0], koefs[1], koefs[2]);
       Console.ReadLine();
     }
   }
