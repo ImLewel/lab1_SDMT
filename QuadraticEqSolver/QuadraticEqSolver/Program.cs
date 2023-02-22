@@ -23,9 +23,11 @@ namespace QuadraticEqSolver {
 
       void Setup() {
         for (int i = 0; i < coeffs.Length; ++i) {
-          Console.WriteLine($"Enter {coeffNames[i]}:");
-          if (interactiveMode)
-            while (Interactive(i) == false) { }
+          if (interactiveMode) {
+            Console.WriteLine($"Enter {coeffNames[i]}:");
+            while (Interactive(i) == false)
+              Console.WriteLine($"Enter {coeffNames[i]}:");
+          }
           else if (NotInteractvie(i, fileData) == false)
             return;
           coeffs[i] = temp;
