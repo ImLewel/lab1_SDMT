@@ -1,13 +1,17 @@
-﻿
+﻿using System.Globalization;
 
 namespace QuadraticEqSolver {
   class Program {
     static void Main(string[] args) {
-      float[] koefs = new float[3];
+      CultureInfo ci = new CultureInfo("en-US");
+      ci.NumberFormat.CurrencyDecimalSeparator = ".";
+
+      float[] coeffs = new float[3];
       float temp = 0;
       float D, x1, x2;
       bool interactiveMode;
       string[] fileData = new string[3];
+      string[] coeffNames = new string[3] {"a", "b", "c"};
 
       if (args.Length != 0 && File.Exists(args[0])) {
         interactiveMode = false;
@@ -18,23 +22,31 @@ namespace QuadraticEqSolver {
 
 
       void Setup() {
-        for (int i = 0; i < koefs.Length; ++i) {
+        for (int i = 0; i < coeffs.Length; ++i) {
+          Console.WriteLine($"Enter {coeffNames[i]}:");
           if (interactiveMode)
-            while (ValueTester(i) == false) { }
-          else if (NInterValueTester(i, fileData) == false)
+            while (Interactive(i) == false) { }
+          else if (NotInteractvie(i, fileData) == false)
             return;
-          koefs[i] = temp;
+          coeffs[i] = temp;
         }
-        Solve(koefs[0], koefs[1], koefs[2]);
+        Console.WriteLine(
+          string.Format(
+            ci,
+            "Solve {0:0.###}x²{1:+0.###;-0.###;+0}x{2:+0.###;-0.###;+0}=0", 
+            coeffs[0], coeffs[1], coeffs[2]
+          )
+        );
+        Solve(coeffs[0], coeffs[1], coeffs[2]);
       }
 
-      bool ValueTester(int i) {
+      bool Interactive(int i) {
         string response = Console.ReadLine() ?? "";
         if (response == "") {
           Console.WriteLine("Error. Empty answer");
           return false;
         }
-        else if (float.TryParse(response, out temp)) {
+        else if (float.TryParse(response, NumberStyles.Float | NumberStyles.AllowDecimalPoint, ci, out temp)) {
           if (i == 0 && temp == 0) {
             Console.WriteLine("a can't be zero");
             return false;
@@ -48,12 +60,12 @@ namespace QuadraticEqSolver {
         }
       }
 
-      bool NInterValueTester(int i, string[] toTest) {
+      bool NotInteractvie(int i, string[] toTest) {
         if (toTest.Length < 3 || toTest[i] == "") {
           Console.WriteLine("Error. Missing some data");
           return false;
         }
-        else if (float.TryParse(toTest[i], out temp)) {
+        else if (float.TryParse(toTest[i], NumberStyles.Float | NumberStyles.AllowDecimalPoint, ci, out temp)) {
           if (i == 0 && temp == 0) {
             Console.WriteLine("a can't be zero");
             return false;
@@ -74,13 +86,13 @@ namespace QuadraticEqSolver {
         if (D > 0) {
           x1 = (-b - MathF.Sqrt(D)) / (2 * a);
           x2 = (-b + MathF.Sqrt(D)) / (2 * a);
-          Console.WriteLine($"There are two roots \n x1: {x1} \n x2: {x2}");
+          Console.WriteLine($"There are two roots \n x1: {x1:0.###} \n x2: {x2:0.###}");
         }
         if (D < 0)
           Console.WriteLine("There are 0 roots");
         if (D == 0) {
           x1 = (-b + MathF.Sqrt(D)) / (2 * a);
-          Console.WriteLine($"There is 1 root \n x: {x1}");
+          Console.WriteLine($"There is 1 root \n x: {x1:0.###}");
         }
       }
 
