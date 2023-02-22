@@ -18,4 +18,6 @@
 >>- Run or build with ```dotnet run``` ```dotnet build```
 >>- If you want to run in non-interactive mode simply add source to your .txt file with certain data
 
-Note: non-interactive mode supports only ```.txt``` files, also there is the test file in this repo.
+>## Note: non-interactive mode supports only ```.txt``` files, also there is the test file in this repo.
+
+>## Revert commit [link](https://github.com/ImLewel/lab1_SDMT/commit/1880e959cd19b5ecd8b45429d77f11fd77a4bb3f)
