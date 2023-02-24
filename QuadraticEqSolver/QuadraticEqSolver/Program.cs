@@ -14,8 +14,14 @@ namespace QuadraticEqSolver {
       string[] coeffNames = new string[3] {"a", "b", "c"};
 
       if (args.Length != 0 && File.Exists(args[0])) {
-        interactiveMode = false;
-        fileData = File.ReadAllText(args[0]).Split(" ");
+        if (Path.GetExtension(args[0]) == ".txt") {
+          interactiveMode = false;
+          fileData = File.ReadAllText(args[0]).Split(" ");
+        }
+        else {
+          Console.WriteLine("Error. Expected a .txt file");
+          return;
+        }
       }
       else
         interactiveMode = true;
