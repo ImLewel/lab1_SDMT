@@ -59,6 +59,10 @@ namespace QuadraticEqSolver {
             Console.WriteLine("a can't be zero");
             return false;
           }
+          else if (temp is float.NaN) {
+            Console.WriteLine("NaN is restricted!");
+            return false;
+          }
           else
             return true;
         }
@@ -76,6 +80,10 @@ namespace QuadraticEqSolver {
         else if (float.TryParse(toTest[i], NumberStyles.Float | NumberStyles.AllowDecimalPoint, ci, out temp)) {
           if (i == 0 && temp == 0) {
             Console.WriteLine("a can't be zero");
+            return false;
+          }
+          else if (temp is float.NaN) {
+            Console.WriteLine("NaN is restricted!");
             return false;
           }
           else
